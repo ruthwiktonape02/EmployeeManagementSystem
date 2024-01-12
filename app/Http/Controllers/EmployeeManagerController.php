@@ -10,10 +10,32 @@ use function PHPUnit\Framework\isNull;
 
 class EmployeeManagerController extends Controller
 {
+
     public function create(Request $request)
     {
         try {
-            $employee = new Employee;
+            $request->validate(
+                [
+                    'name' => 'required',
+                    'email' => 'required|email',
+                    'address' => 'required',
+                    'salary' => 'required',
+                    'country' => 'required',
+                    'date' => 'required'
+
+                ]
+            );
+        } catch (\Throwable $th) {
+            Log::info("Error While creating new Entry :" . $th->getMessage());
+            return redirect()->back()->withErrors(["error" => "Something Went Wrong !!"]);
+        }
+        $employee = Employee::where("email", $request->email);
+        if ($employee->count() > 0) {
+            return redirect()->back()->withErrors(["error" => "Employee Already Register!!"]);
+        }
+
+        try {
+            $employee = new Employee();
             $employee->name = $request->name;
             $employee->email = $request->email;
             $employee->address = $request->address;
@@ -21,7 +43,6 @@ class EmployeeManagerController extends Controller
             $employee->country = $request->country;
             $employee->date = $request->date;
             $employee->save();
-            return redirect("/read");
         } catch (\Throwable $th) {
             Log::info("Error While creating new Entry :" . $th->getMessage());
             return redirect()->back()->withErrors(["error" => "Something Went Wrong !!"]);
@@ -47,9 +68,10 @@ class EmployeeManagerController extends Controller
             return redirect()->back()->withErrors(["error" => "Something Went Wrong !!"]);
         }
     }
-    public function updateAtPosition(Request $request, $id)
+    public function updateAtPosition(Request $request)
     {
         try {
+            $id = $request['id'];
             $allEmployee = Employee::find($id);
             $allEmployee->name = $request->name;
             $allEmployee->email = $request->email;
@@ -66,8 +88,14 @@ class EmployeeManagerController extends Controller
     }
     public function delete($id)
     {
-        $employee = Employee::find($id);
-        $employee->delete();
-        return redirect()->back();
+        try {
+
+            $employee = Employee::find($id);
+            $employee->delete();
+            return redirect()->back();
+        } catch (\Throwable $th) {
+            Log::info("Error While creating new Entry :" . $th->getMessage());
+            return redirect()->back()->withErrors(["error" => "Something Went Wrong !!"]);
+        }
     }
 }
