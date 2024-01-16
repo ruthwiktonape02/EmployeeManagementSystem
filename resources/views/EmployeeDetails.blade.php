@@ -25,14 +25,17 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url('/superUserLogin') }}">Home</a>
+                        <a class="nav-link active" aria-current="page" href="{{ url('/') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/') }}/">Add</a>
+                        <a class="nav-link" href="{{ url('/') }}/employeeRegister">Add</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/') }}/logout">Logout</a>
                     </li>
                 </ul>
                 <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    {{-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> --}}
                     <a href="{{ url('/') }}/read"><button class="btn btn-outline-success" type="submit">Show
                             Details</button></a>
                 </form>
@@ -70,12 +73,16 @@
             </tbody>
 
 
+            {{--
+**
+*
+*
+this is modal for delete
+*
+*
+*
+**              --}}
 
-
-
-
-
-            {{-- this is modal for delete --}}
 
             <div id="ModalDelete-{{ $employee->id }}" class="modal" tabindex="-1" role="dialog">
                 <div class="modal-dialog" role="document">
@@ -103,21 +110,12 @@
     </div>
 
 
+    <!--
+        
+        Modal HTML Markup for update
+    
+    -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- Modal HTML Markup for update-->
     <div id="ModalUpdateForm-{{ $employee->id }}" class="modal fade">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -125,7 +123,7 @@
                     <h1 class="modal-title">Update</h1>
                 </div>
                 <div class="modal-body">
-                    <form id="update-{{ $employee->id }}" action="{{ url('/updateAtPosition') }}" method="post">
+                    <form id="update-{{ $employee->id }}" {{-- action="{{ url('/updateAtPosition') }}" --}} method="post">
                         @csrf
                         <input type="hidden" name="id" value="{{ $employee->id }}">
                         <div class="form-group">
@@ -176,21 +174,6 @@
     @endforeach
     </table>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
@@ -203,5 +186,26 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
 </body>
+<script>
+    < script >
+        $(document).ready(function() {
+            $("#form").on('submit', function(event) {
+                event.preventDefault();
+
+                var formData = $(this).serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url('/') }}/read",
+                    data: formData,
+                }).done(function(data) {
+                    console.log(data);
+
+                });
+
+
+
+            });
+        });
+</script>
 
 </html>

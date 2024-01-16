@@ -13,7 +13,13 @@
 
 <body>
 
+    <span class="text-danger">
+        @error('sucess')
+            {{ $message }}
+        @enderror
+    </span>
     <div class="alert alert-primary" role="alert">
+
         @if ($errors->any())
             @foreach ($errors->all() as $error)
                 <strong>
@@ -23,7 +29,7 @@
         @endif
     </div>
 
-    <h1 class="text-center">Registration Page</h1>
+    <h1 class="text-center">Employee Registration Page</h1>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Navbar</a>
@@ -35,13 +41,16 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ url('/superUserLogin') }}">Home</a>
+                        <a class="nav-link active" aria-current="page" href="{{ url('/') }}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/') }}/">Add</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/') }}/logout">Logout</a>
+                    </li>
                 </ul>
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                {{-- <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"> --}}
                 <a href="{{ url('/read') }}"><button class="btn btn-outline-success" type="submit">Show
                         Details</button></a>
             </div>
@@ -53,22 +62,42 @@
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" name="name"class="form-control" id="name" placeholder="Enter your name">
+                <span>
+                    @error('name')
+                        {{ $message }}
+                    @enderror
+                </span>
             </div>
 
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" name="email" class="form-control" id="email" placeholder="Enter your email">
+                <span>
+                    @error('email')
+                        {{ $message }}
+                    @enderror
+                </span>
             </div>
 
             <div class="form-group">
                 <label for="address">Address:</label>
                 <textarea name="address" class="form-control" id="address" rows="3" placeholder="Enter your address"></textarea>
+                <span>
+                    @error('address')
+                        {{ $message }}
+                    @enderror
+                </span>
             </div>
 
 
             <div class="form-group">
                 <label for="salary">Salary:</label>
                 <input name="salary"type="text" class="form-control" id="state" placeholder="Enter your salary">
+                <span>
+                    @error('salary')
+                        {{ $message }}
+                    @enderror
+                </span>
             </div>
 
             <div class="form-group">
@@ -77,6 +106,11 @@
                     <option value="usa">United States</option>
                     <option value="canada">Canada</option>
                     <!-- Add more options as needed -->
+                    <span>
+                        @error('country')
+                            {{ $message }}
+                        @enderror
+                    </span>
                 </select>
             </div>
 
@@ -85,6 +119,11 @@
                 <input type="date" name="date"class="form-control" id="dob">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
+            <span>
+                @error('date')
+                    {{ $message }}
+                @enderror
+            </span>
         </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

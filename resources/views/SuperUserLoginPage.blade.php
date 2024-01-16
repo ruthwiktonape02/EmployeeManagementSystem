@@ -14,6 +14,11 @@
 
 <body>
 
+    <span class="text-danger">
+        @error('error')
+            {{ $message }}
+        @enderror
+    </span>
     <h1 class="text-center">Super User Login</h1>
     <form id="form" method="POST">
         @csrf
@@ -30,10 +35,10 @@
         <!-- Submit button -->
         <button type="submit" class="btn btn-primary btn-block mb-4">Submit</button>
 
-        {{-- <!-- Register buttons -->
+        <!-- Register buttons -->
         <div class="text-center">
-            <p>Not a member? <a href="#!">Register</a></p>
-        </div> --}}
+            <p>Not a member? <a href="{{ url('/') }}/superUserRegister">Register</a></p>
+        </div>
     </form>
 
     <!-- Optional JavaScript -->
@@ -54,7 +59,7 @@
                 var formData = $(this).serialize();
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('/') }}/superUserLogin",
+                    url: "{{ url('/') }}/",
                     data: formData,
                 }).done(function(data) {
                     console.log(data);

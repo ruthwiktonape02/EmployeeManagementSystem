@@ -31,7 +31,7 @@ class EmployeeManagerController extends Controller
         }
         $employee = Employee::where("email", $request->email);
         if ($employee->count() > 0) {
-            return redirect()->back()->withErrors(["error" => "Employee Already Register!!"]);
+            return redirect()->back()->withErrors(["error1" => "Employee Already Register!!"]);
         }
 
         try {
@@ -43,6 +43,7 @@ class EmployeeManagerController extends Controller
             $employee->country = $request->country;
             $employee->date = $request->date;
             $employee->save();
+            return redirect()->back()->withErrors(["sucess" => "sucessfully Entered !!"]);
         } catch (\Throwable $th) {
             Log::info("Error While creating new Entry :" . $th->getMessage());
             return redirect()->back()->withErrors(["error" => "Something Went Wrong !!"]);
@@ -71,7 +72,7 @@ class EmployeeManagerController extends Controller
     public function updateAtPosition(Request $request)
     {
         try {
-            $id = $request['id'];
+            $id = $request->id;
             $allEmployee = Employee::find($id);
             $allEmployee->name = $request->name;
             $allEmployee->email = $request->email;

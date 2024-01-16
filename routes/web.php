@@ -15,24 +15,31 @@ use App\Http\Controllers\SuperUserController;
 |
 */
 
+
+
 Route::get('/superUserRegister', function () {
     return view('SuperUserRegistrationPage');
 });
-Route::get('/superUserLogin', function () {
+Route::post('/superUserRegister', [SuperUserController::class, 'store']);
+Route::get('/', function () {
     return view('SuperUserLoginPage');
 });
-
-Route::get('/', function () {
-    return view('RegistrationPage');
-});
-Route::post('/create', [EmployeeManagerController::class, 'create']);
-Route::get('/create', [EmployeeManagerController::class, 'create']);
-Route::post('/superUserLogin', [SuperUserController::class, 'check']);
-Route::post('/RegistrationPage', [EmployeeManagerController::class, 'create']);
-Route::get('/RegistrationPage', [EmployeeManagerController::class, 'create']);
+Route::get('/logout', [SuperUserController::class, 'logout']);
+Route::post('/', [SuperUserController::class, 'check']);
 Route::post('/store', [SuperUserController::class, 'store']);
-Route::post('/check', [SuperUserController::class, 'check']);
-Route::get('/update/{id}', [EmployeeManagerController::class, 'update']);
-Route::get('/delete/{id}', [EmployeeManagerController::class, 'delete']);
-Route::get('/read', [EmployeeManagerController::class, 'read']);
-Route::post('/updateAtPosition', [EmployeeManagerController::class, 'updateAtPosition']);
+
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/employeeRegister', function () {
+        return view('RegistrationPage');
+    });
+    Route::post('/create', [EmployeeManagerController::class, 'create']);
+    Route::get('/create', [EmployeeManagerController::class, 'create']);
+    Route::get('/update/{id}', [EmployeeManagerController::class, 'update']);
+    Route::get('/delete/{id}', [EmployeeManagerController::class, 'delete']);
+    Route::get('/read', [EmployeeManagerController::class, 'read']);
+    Route::post('/read', [EmployeeManagerController::class, 'updateAtPosition']);
+    Route::post('/updateAtPosition', [EmployeeManagerController::class, 'updateAtPosition']);
+    Route::post('/RegistrationPage', [EmployeeManagerController::class, 'create']);
+    Route::get('/RegistrationPage', [EmployeeManagerController::class, 'create']);
+});
